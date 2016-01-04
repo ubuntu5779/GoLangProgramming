@@ -12,7 +12,7 @@ func main() {
 	match, _ := regexp.MatchString("p([a-z]+)ch", "peach")
 	fmt.Println(match)
 
-	//Above we used a string pattern directly, 
+	//Above we used a string pattern directly,
 	//but for other regexp tasks you’ll need to Compile an optimized Regexp struct.
 	r, _ := regexp.Compile("p([a-z]+)ch")
 
@@ -22,43 +22,48 @@ func main() {
 	//This finds the match for the regexp.
 	fmt.Println(r.FindString("peach punch"))
 
-	//This also finds the first match but returns 
+	//This also finds the first match but returns
 	//the start and end indexes for the match instead of the matching text.
 	fmt.Println(r.FindStringIndex("peach punch"))
 
-	//The Submatch variants include information about both 
-	//the whole-pattern matches and the submatches within those matches. 
+	//The Submatch variants include information about both
+	//the whole-pattern matches and the submatches within those matches.
 	//For example this will return information for both p([a-z]+)ch and ([a-z]+).
 	fmt.Println(r.FindStringSubmatch("peach punch"))
 
 	//Similarly this will return information about the indexes of matches and submatches.
 	fmt.Println(r.FindStringSubmatchIndex("peach punch"))
 
-	//The All variants of these functions apply to all matches in the input, 
+	//The All variants of these functions apply to all matches in the input,
 	//not just the first. For example to find all matches for a regexp.
 	fmt.Println(r.FindAllString("peach punch pinch", -1))
 
 	//These All variants are available for the other functions we saw above as well.
 	fmt.Println(r.FindAllStringSubmatchIndex("peach punch pinch", -1))
 
-	//Providing a non-negative integer as the second argument to these 
+	//Providing a non-negative integer as the second argument to these
 	//functions will limit the number of matches.
 	fmt.Println(r.FindAllString("peach punch pinch", 2))
 
-	//Our examples above had string arguments and used names like MatchString. 
+	//Our examples above had string arguments and used names like MatchString.
 	//We can also provide []byte arguments and drop String from the function name.
 	fmt.Println(r.Match([]byte("peach")))
 
-	//When creating constants with regular expressions you can use the 
+	//When creating constants with regular expressions you can use the
 	//MustCompile variation of Compile. A plain Compile won’t work for constants because it has 2 return values.
 	r = regexp.MustCompile("p([a-z]+)ch")
-    fmt.Println(r)
+	fmt.Println(r)
 
-    //The regexp package can also be used to replace subsets of strings with other values.
-    fmt.Println(r.ReplaceAllString("a peach", "<fruit>"))
+	//The regexp package can also be used to replace subsets of strings with other values.
+	fmt.Println(r.ReplaceAllString("a peach", "<fruit>"))
 
-    //The Func variant allows you to transform matched text with a given function.
-    in := []byte("a peach")
-    out := r.ReplaceAllFunc(in, bytes.ToUpper)
-    fmt.Println(string(out))
+	//The Func variant allows you to transform matched text with a given function.
+	in := []byte("a peach")
+	out := r.ReplaceAllFunc(in, bytes.ToUpper)
+	fmt.Println(string(out))
+
+	urlStr := "foo(https://cyclone.goibibo.com/rest/hotelpriceinfo/?userid=asd&hash=2837423032023&application=web&actionData=%5B%7B%22query%22%3A%222820046943342890302-20160112-20160113-1-1_0-foo%22%7D%5D&flavour=v3&formatcode=f2&contracttype=&cur=INR"
+	urlR := regexp.MustCompile(`^foo\(`)
+	urlReplaced := urlR.ReplaceAllString(urlStr, "")
+	fmt.Println("replaced string: ", urlReplaced)
 }

@@ -5,21 +5,21 @@ import (
 	"time"
 )
 
-func pinger (c chan string) {
+func pinger(c chan string) {
 	for i := 0; ; i++ {
-		c <- "ping" 
+		c <- "ping"
 	}
 }
 
 func ponger(c chan string) {
-  for i := 0; ; i++ {
-    c <- "pong"
-  }
+	for i := 0; ; i++ {
+		c <- "pong"
+	}
 }
 
-func printer (c chan string) {
+func printer(c chan string) {
 	for {
-		msg := <- c
+		msg := <-c
 		fmt.Println(msg)
 		time.Sleep(time.Second * 1)
 	}
